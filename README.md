@@ -70,11 +70,6 @@ MySQL 5.x or higher
 
 Optional: XAMPP / MAMP / LAMP stack
 
-
-
-
 License
 
 This project is licensed under the MIT License
-(Add screenshots of your project here if desired, e.g., admin panel, homepage)
-
