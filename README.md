@@ -70,14 +70,7 @@ MySQL 5.x or higher
 
 Optional: XAMPP / MAMP / LAMP stack
 
-Screenshots
-<img width="1470" height="956" alt="Screenshot 2026-02-01 at 10 34 17 PM" src="https://github.com/user-attachments/assets/44851332-387c-484b-892e-54f30a497e3a" />
 
-<img width="1470" height="956" alt="Screenshot 2026-02-01 at 10 35 33 PM" src="https://github.com/user-attachments/assets/ea7c0a08-28fd-4a72-b08c-a9dc700060c2" />
-
-<img width="1470" height="956" alt="Screenshot 2026-02-01 at 10 35 42 PM" src="https://github.com/user-attachments/assets/5ebfeb7c-8ebe-40bc-b7f9-cbf39bb7011c" />
-
-<img width="1470" height="956" alt="Screenshot 2026-02-01 at 10 34 17 PM" src="https://github.com/user-attachments/assets/f8a16c49-df04-42e6-8426-7a84c397aecb" />
 
 
 License
