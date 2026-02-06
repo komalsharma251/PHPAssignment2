@@ -1,7 +1,26 @@
 <?php
-// index.php (root of project)
+declare(strict_types=1);
 
-require 'views/header.php';
+require __DIR__ . '/db/app.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// If user not logged in → redirect to login page
+if (empty($_SESSION['user'])) {
+    header("Location: " . BASE_URL . "/auth/login.php");
+    exit;
+}
+
+// If user is NOT admin → redirect to user account page (or customer page)
+if (($_SESSION['user']['role'] ?? '') !== 'admin') {
+    header("Location: " . BASE_URL . "/account/index.php");
+    exit;
+}
+
+// If admin → show admin dashboard content
+require __DIR__ . '/views/header.php';
 ?>
 
 <div class="container mt-5">
@@ -21,22 +40,24 @@ require 'views/header.php';
         </div>
         <div class="card-body">
             <div class="list-group list-group-flush">
-                <a href="views/admin/product_manager.php" class="list-group-item list-group-item-action">
+                <a href="<?= BASE_URL ?>/views/admin/product_manager.php" class="list-group-item list-group-item-action">
                     Manage Products
                 </a>
-                <a href="views/admin/manage_technicians.php" class="list-group-item list-group-item-action">
+                <a href="<?= BASE_URL ?>/views/admin/manage_technicians.php" class="list-group-item list-group-item-action">
                     Manage Technicians
                 </a>
-                <a href="views/customers/index.php" class="list-group-item list-group-item-action">
+
+                <a href="<?= BASE_URL ?>/views/admin/search_customers.php" class="list-group-item list-group-item-action">
                     Manage Customers
                 </a>
-                <a href="views/incidents/create_incident.php" class="list-group-item list-group-item-action">
+
+                <a href="<?= BASE_URL ?>/views/incidents/create_incident.php" class="list-group-item list-group-item-action">
                     Create Incident
                 </a>
-                <a href="views/incidents/assign_incident.php" class="list-group-item list-group-item-action">
+                <a href="<?= BASE_URL ?>/views/incidents/assign_incident.php" class="list-group-item list-group-item-action">
                     Assign Incident
                 </a>
-                <a href="views/incidents/index.php" class="list-group-item list-group-item-action">
+                <a href="<?= BASE_URL ?>/views/incidents/index.php" class="list-group-item list-group-item-action">
                     Display Incidents
                 </a>
             </div>
@@ -50,7 +71,7 @@ require 'views/header.php';
         </div>
         <div class="card-body">
             <div class="list-group list-group-flush">
-                <a href="views/technicians/update_incident.php" class="list-group-item list-group-item-action">
+                <a href="<?= BASE_URL ?>/views/technicians/update_incident.php" class="list-group-item list-group-item-action">
                     Update Incident
                 </a>
             </div>
@@ -64,13 +85,19 @@ require 'views/header.php';
         </div>
         <div class="card-body">
             <div class="list-group list-group-flush">
-                <a href="views/registrations/register_product.php" class="list-group-item list-group-item-action">
+                <a href="<?= BASE_URL ?>/views/registrations/register_product.php" class="list-group-item list-group-item-action">
                     Register Product
                 </a>
             </div>
         </div>
     </div>
 
+    <div class="text-center mb-5">
+        <a href="<?= BASE_URL ?>/auth/logout.php" class="btn btn-danger">
+            Logout
+        </a>
+    </div>
+
 </div>
 
-<?php include 'views/footer.php'; ?>
+<?php include __DIR__ . '/views/footer.php'; ?>

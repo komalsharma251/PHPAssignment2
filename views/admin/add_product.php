@@ -1,6 +1,11 @@
 <?php
+declare(strict_types=1);
+
 // Include database connection
-require '../../db/database.php';
+require __DIR__ . '/../../db/database.php';
+
+// Include header
+include __DIR__ . '/../header.php'; 
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -10,31 +15,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $version     = trim($_POST['version'] ?? '');
     $releaseDate = trim($_POST['releaseDate'] ?? '');
 
-    //  SERVER-SIDE validation
-    if (
-        $productCode === '' ||
-        $name === '' ||
-        $version === '' ||
-        $releaseDate === ''
-    ) {
+    // Server-side validation
+    if ($productCode === '' || $name === '' || $version === '' || $releaseDate === '') {
         header('Location: ../error.php');
         exit;
     }
 
+    // Use prepared statement to prevent SQL injection
     $sql = "INSERT INTO products (productCode, name, version, releaseDate)
-            VALUES ('$productCode', '$name', '$version', '$releaseDate')";
+            VALUES (:productCode, :name, :version, :releaseDate)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':productCode' => $productCode,
+        ':name'        => $name,
+        ':version'     => $version,
+        ':releaseDate' => $releaseDate,
+    ]);
+    $stmt->closeCursor();
 
-    $db->exec($sql);
-
-    //  Redirect to Product List
+    // Redirect to Product List
     header('Location: product_manager.php');
     exit;
 }
-
-include '../header.php'; // Include the header file
 ?>
-
-
 
 <div class="container mt-5">
     <div class="card shadow">
@@ -64,17 +67,12 @@ include '../header.php'; // Include the header file
                     <input type="date" name="releaseDate" class="form-control" required>
                 </div>
 
-                <button type="submit" class="btn btn-success">
-                    Add Product
-                </button>
-
-                <a href="product_manager.php" class="btn btn-secondary ms-2">
-                    View Product List
-                </a>
+                <button type="submit" class="btn btn-success">Add Product</button>
+                <a href="product_manager.php" class="btn btn-secondary ms-2">View Product List</a>
             </form>
 
         </div>
     </div>
 </div>
 
-<?php include '../footer.php'; ?>
+<?php include __DIR__ . '/../footer.php'; ?>

@@ -1,5 +1,5 @@
 
-<?php include 'header.php'; ?>
+<?php include 'header.php'; ?> 
 
 <div class="container mt-5">
     <div class="card shadow">
@@ -10,7 +10,8 @@
             <p class="text-danger fw-bold">
                 Error: All fields are required. Please go back and try again.
             </p>
-            <a href="admin/add_product.php" class="btn btn-secondary">
+              Button to go back to add_product.php
+            <a href="admin/add_product.php" class="btn btn-secondary"> 
                 Back to Add Product
             </a>
         </div>

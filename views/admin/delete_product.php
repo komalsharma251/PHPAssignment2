@@ -1,15 +1,20 @@
-
 <?php
-require '../../db/database.php'; // connect to database
+declare(strict_types=1);
 
-// views/admin/delete_product.php
+// Include database connection
+require __DIR__ . '/../../db/database.php'; 
 
+// Get product code from POST
 $product_code = $_POST['product_code'] ?? '';
 
-if ($product_code != '') {
-    $sql = "DELETE FROM products WHERE productCode = '$product_code'";
-    $db->exec($sql);
-} // end if product_code
+if ($product_code !== '') {
+    // Use prepared statement to safely delete
+    $sql = "DELETE FROM products WHERE productCode = :productCode";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':productCode' => $product_code]);
+    $stmt->closeCursor();
+}
 
-header('Location: product_manager.php'); // redirect back to product manager
-exit; // end script
+// Redirect back to Product Manager
+header('Location: product_manager.php');
+exit;

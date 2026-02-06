@@ -1,12 +1,15 @@
-
 <?php
+declare(strict_types=1);
 
-// views/admin/product_manager.php
+// Load BASE_URL
+require __DIR__ . '/../../db/app.php';
 
-require '../../db/database.php'; // connect to database
-include '../header.php'; // include header
+// Connect to database
+require __DIR__ . '/../../db/database.php';
+
+// Include header
+include __DIR__ . '/../header.php';
 ?>
-
 
 <div class="container mt-5">
     <div class="card shadow">
@@ -16,7 +19,9 @@ include '../header.php'; // include header
         <div class="card-body">
             <?php
             $sql = "SELECT productCode, name, version, releaseDate FROM products";
-            $products = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = $pdo->query($sql);
+            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
             ?>
             
             <table class="table table-striped table-bordered table-hover">
@@ -52,10 +57,10 @@ include '../header.php'; // include header
 
             <div class="mt-3">
                 <a href="add_product.php" class="btn btn-success">Add Product</a>
-                <a href="../../index.php" class="btn btn-secondary">Home</a>
+                <a href="<?= BASE_URL ?>/index.php" class="btn btn-secondary">Home</a>
             </div>
         </div>
     </div>
 </div>
 
-<?php include '../footer.php'; ?> 
+<?php include __DIR__ . '/../footer.php'; ?>
